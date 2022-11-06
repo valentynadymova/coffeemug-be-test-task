@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+import { customAlphabet } from "nanoid";
+
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10);
+
 
 export interface ProductInput{
     name:string;
@@ -15,11 +19,12 @@ export interface ProductDocument extends ProductInput, mongoose.Document{
 }
 
 const productSchema= new mongoose.Schema({
-    // productId:{
-    //     type:String,
-    //     required:true,
-    //     unique:true,
-    // },
+    productId:{
+        type:String,
+        required:true,
+        unique:true,
+        default: ()=>`product_${nanoid()}`
+    },
     name:{
         type:String,
         required:true,
