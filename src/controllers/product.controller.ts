@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { CreateProductInput, UpdateProductInput,GetProductInput,DeleteProductInput } from "../schemas/product.schema";
-import{createProduct, findProduct,deleteProduct,findAndUpdateProduct} from "../services/product.service";
+import{createProduct, findProduct,deleteProduct,findAndUpdateProduct, findAllProducts} from "../services/product.service";
 
 
 
@@ -35,7 +35,7 @@ export async function updateProductHandler(
 }
 
 export async function getProductHandler(
-    req:Request<UpdateProductInput['params']>,
+    req:Request<GetProductInput['params']>,
     res:Response) {
         const productId=req.params.productId;
         const product = await findProduct({productId});
@@ -45,12 +45,18 @@ export async function getProductHandler(
         }
 
         return res.send(product);
+}
 
-
+export async function getAllProductsHandler(
+    req:Request,
+    res:Response,
+){
+const products= await findAllProducts();
+return res.send(products)
 }
 
 export async function deleteProductHandler(
-    req:Request<UpdateProductInput['params']>,
+    req:Request<DeleteProductInput['params']>,
     res:Response) {
         const productId=req.params.productId;
 
@@ -62,5 +68,6 @@ export async function deleteProductHandler(
 
         await deleteProduct({productId});
 
-    return res.sendStatus(200)
+    return res.status(200).json({message:"Product is deleted"});
 }
+

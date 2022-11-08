@@ -1,7 +1,9 @@
-import { DocumentDefinition, FilterQuery,QueryOptions, UpdateQuery } from "mongoose";
-import ProductModel, { ProductDocument,ProductInput } from "../models/product";
+import { FilterQuery,QueryOptions, UpdateQuery } from "mongoose";
+import ProductModel, { ProductInput ,ProductDocument} from "../models/product.model";
 
-export async function createProduct(input:DocumentDefinition<Omit<ProductDocument, 'createdAt'|"updatedAt">>){
+
+
+export async function createProduct(input:ProductInput){
    return ProductModel.create(input)
 
 }
@@ -11,6 +13,12 @@ export async function findProduct(
     options: QueryOptions={lean:true}
     ){
    return ProductModel.findOne(query,{},options)
+
+}
+
+export async function findAllProducts(){
+
+    return ProductModel.find().lean();
 
 }
 
@@ -26,6 +34,6 @@ export async function findAndUpdateProduct(
 export async function deleteProduct(
     query:FilterQuery<ProductDocument>,
 ){
-    return ProductModel.deleteOne(query)
+    return ProductModel.deleteOne(query);
 
 }

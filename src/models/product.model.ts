@@ -2,20 +2,18 @@ import mongoose from "mongoose";
 
 import { customAlphabet } from "nanoid";
 
-const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10);
+const nanoid = customAlphabet("abc0123456789", 10);
 
 
 export interface ProductInput{
     name:string;
     price:number;
-    // productId:string;
-    //createdAt:Date;
-    //updatedAt:Date;
 } 
 
 export interface ProductDocument extends ProductInput, mongoose.Document{
     createdAt:Date;
     updatedAt:Date;
+    productId:string;
 }
 
 const productSchema= new mongoose.Schema({
