@@ -23,29 +23,28 @@ describe('product',()=>{
                 .send();
                 expect(res.statusCode).toEqual(400);
             });
-
         });
 
         describe('get product by id',()=>{
-            it('should return bad req if productId is not valid', async()=>{
-                const res=await supertest(app).get('/api/products/');
+            it('should return bad req if product Id is not valid', async()=>{
+                const res=await supertest(app).get('/api/products/32');
                 expect(res.statusCode).toEqual(400);
             });
     
         });
 
         describe('delete product by id', ()=>{
-            it('should return bad req if productId is missing',
+            it('should return bad req if product id is not valid',
             async()=>{
-                const res=await supertest(app).delete('/api/products/');
+                const res=await supertest(app).delete('/api/products/23');
                 expect(res.statusCode).toEqual(400);
             })
         })
 
-        describe('update prpduct by id',()=>{
-            it('should return bad req if productId is missing',
+        describe('update product by id',()=>{
+            it('should return bad req if product id is not valid',
             async ()=>{
-                const res=await supertest(app).put('/api/products/');
+                const res=await supertest(app).put('/api/products/23');
                 expect(res.statusCode).toEqual(400);
 
             })

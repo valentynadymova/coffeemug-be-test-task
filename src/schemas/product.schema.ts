@@ -1,4 +1,4 @@
-import {object,number,string,TypeOf} from "zod";
+import {object,number,string,TypeOf,infer} from "zod";
 
 
 const payload={
@@ -8,7 +8,7 @@ const payload={
         }).max(100,
              "Name should have maximum 100 characters"),
         price:number({
-            required_error:"Price is requiered"
+            required_error:"Price is required"
         }),
     })
 
@@ -16,9 +16,9 @@ const payload={
 
 const params={
     params:object({
-        productId:string({
+        id:string({
             required_error:"productId is required"
-        })
+        }) 
     })
 }
 
@@ -27,8 +27,9 @@ export const createProductSchema=object({
 })
 
 export const updateProductSchema=object({
-    ...params,
-    ...payload
+    ...payload,
+    ...params
+
 })
 
 export const deleteProductSchema=object({
@@ -40,7 +41,8 @@ export const getProductSchema=object({
 })
 
 
-export type CreateProductInput=TypeOf<typeof createProductSchema>
-export type UpdateProductInput=TypeOf<typeof updateProductSchema>
-export type GetProductInput=TypeOf<typeof getProductSchema>
-export type DeleteProductInput=TypeOf<typeof deleteProductSchema>
+export type CreateProductInput=TypeOf<typeof createProductSchema>;
+export type UpdateProductInput=TypeOf<typeof updateProductSchema>;
+export type GetProductInput=TypeOf<typeof getProductSchema>;
+export type DeleteProductInput=TypeOf<typeof deleteProductSchema>;
+

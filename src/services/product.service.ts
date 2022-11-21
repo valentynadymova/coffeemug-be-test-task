@@ -13,7 +13,6 @@ export async function findProduct(
     options: QueryOptions={lean:true}
     ){
    return ProductModel.findOne(query,{},options)
-
 }
 
 export async function findAllProducts(){

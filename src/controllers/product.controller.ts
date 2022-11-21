@@ -1,23 +1,29 @@
 import { Request,Response } from "express";
 import { CreateProductInput, UpdateProductInput,GetProductInput,DeleteProductInput } from "../schemas/product.schema";
 import{createProduct, findProduct,deleteProduct,findAndUpdateProduct, findAllProducts} from "../services/product.service";
+import logger from "../utils/logger";
 
 
 
 export async function createProductHandler(
     req:Request<{},{},CreateProductInput["body"]>,
     res:Response) {
-        const body=req.body;
-        const product= await createProduct({...body})
-
-        return res.send(product);
+        try{
+            const body=req.body;
+            const product= await createProduct({...body})
+    
+            return res.status(200).send(product);
+        }catch(err:any){
+            res.status(409).send('product already exists');
+        }
+       
     
 }
 
 export async function updateProductHandler(
     req:Request<UpdateProductInput['params']>,
     res:Response) {
-        const productId=req.params.productId;
+        const productId=req.params.id;
         const update=req.body;
 
         const product=await findProduct({productId});
@@ -30,14 +36,14 @@ export async function updateProductHandler(
             new:true,
         })
 
-    return res.send(updatedProduct)
+    return res.status(200).send(updatedProduct)
     
 }
 
 export async function getProductHandler(
     req:Request<GetProductInput['params']>,
     res:Response) {
-        const productId=req.params.productId;
+        const productId=req.params.id;
         const product = await findProduct({productId});
         
         if(!product){
@@ -58,7 +64,7 @@ return res.send(products)
 export async function deleteProductHandler(
     req:Request<DeleteProductInput['params']>,
     res:Response) {
-        const productId=req.params.productId;
+        const productId=req.params.id;
 
         const product=await findProduct({productId});
 
